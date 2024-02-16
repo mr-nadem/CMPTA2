@@ -10,6 +10,8 @@ Stack.o: Stack.cpp Stack.h
 StackTestDriver.o: StackTestDriver.cpp Stack.h
 	g++ -c StackTestDriver.cpp
 
-clean:	
-	rm -f std *.o
+clean:
+	del std *.o
+
+
 
