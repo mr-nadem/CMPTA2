@@ -12,6 +12,3 @@ StackTestDriver.o: StackTestDriver.cpp Stack.h
 
 clean:
 	del std *.o
-
-
-

@@ -86,7 +86,7 @@ void Queue::enqueue(int newElement) {
         delete[] elements;
         elements = updatedElements;
         frontindex = 0;
-        backindex = elementCount;  // Update backindex after copying elements
+        backindex = elementCount; 
     }
 
     // Enqueuing
@@ -101,7 +101,7 @@ void Queue::enqueue(int newElement) {
 // Time Efficiency: O(1)
 void Queue::dequeue() {
 
-    if (!this->isEmpty()) {
+    if (!isEmpty()) {
         // Space allocation
         if (elementCount < capacity / 4) {
             capacity = capacity / 2;
@@ -134,7 +134,7 @@ void Queue::dequeue() {
 // Precondition: Queue not empty
 // Time Efficiency: O(1)
 int Queue::peek() const {
-    if (!this->isEmpty()) {
+    if (!isEmpty()) {
         return elements[frontindex];  
     } else {
         cout << "FAILED: Queue Empty";

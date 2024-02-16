@@ -11,5 +11,5 @@ QueueTestDriver.o: QueueTestDriver.cpp Queue.h
 	g++ -c QueueTestDriver.cpp
 
 clean:	
-	rm -f qtd *.o
+	del qtd *.o
 
