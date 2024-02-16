@@ -1,13 +1,29 @@
+/* 
+ * Stack.cpp
+ *
+ * Description: Implementation of a linked list-based Stack ADT class - SHSL list
+ * Class Invariant: LIFO order
+ *                  Top of Stack located at the back of SHSL list.
+ *
+ * Author: Jaiden Nadem & Mani Samet
+ * Date: 2024-02-15
+ */
 
 #include <iostream>
 #include "Stack.h"
 
+// Description: Default constructor
 Stack::Stack() {
-    elementCount = 0;
     head = nullptr;
 }
 
+// Description: Destructor
+Stack::~Stack() {
+    delete head;
+}
 
+// Description: Add a new element to the top of the Stack
+// Time Efficiency: O(n)
 void Stack::push(int &num) {
 
     if (head == nullptr) {
@@ -25,12 +41,19 @@ void Stack::push(int &num) {
         }
         current->next = newNode;
     } 
-    elementCount++;
 }
 
+// Description: Returns the top of the stack
+// Precondition: The Stack is not empty
+// Postcondition: The Stack is unchanged
+// Time efficiency: O(n)
 const int Stack::peek() {
     StackNode * current;
     current = head;
+
+    if (isEmpty() == true) {
+        return -1;
+    }
 
     while (current->next != nullptr) {
         current = current->next;
@@ -39,14 +62,19 @@ const int Stack::peek() {
     return current->data;
 }
 
+// Description: Removes top element of this Stack
+// Precondition: The Stack is not empty
+// Time efficiency: O(n)
 void Stack::pop() {
 
     if (isEmpty() == false) {
-        
+
         if (head->next == nullptr) {
             delete head;
             head = nullptr;
+
         } else {
+
             StackNode * current;
             StackNode * prev;
 
@@ -63,14 +91,25 @@ void Stack::pop() {
             
         }
 
-        elementCount--;
     } 
     
 
 }
 
+// Description: Removes all elements from this Stack
+// Precondition: Stack is not empty
+void Stack::popAll() {
+    if (isEmpty() == false) {
+        delete head;
+        head = nullptr;
+    }
+}
+
+// Description: Returns true if Stack is empty
+// Postcondition: Stack is unaltered
+// Time efficiency: O(1)
 const bool Stack::isEmpty() {
-    if (elementCount == 0) {
+    if (head == nullptr) {
         return true;
     } else {
         return false;

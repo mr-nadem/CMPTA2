@@ -5,8 +5,8 @@
  * Class Invariant: LIFO order
  *                  Top of Stack located at the back of SHSL list.
  *
- * Author:
- * Date:
+ * Author: Jaiden Nadem & Mani Samet
+ * Date: 2024-02-15
  */
  
 class Stack {
@@ -20,26 +20,38 @@ class Stack {
                 StackNode * next;
         };
         
-        StackNode * head;
-        unsigned int elementCount;
-
-/* Put your code here! */       
-        
+        StackNode * head;    
 
     public:
 
-    Stack();
+        // Description: Default Constructor
+        Stack();
 
-    void push(int &num);
+        // Description: Destructor
+        ~Stack();
 
-    const int peek();
+        // Description: Add a new element to the top of the Stack
+        // Time Efficiency: O(n)
+        void push(int &num);
 
-    void pop();
+        // Description: Returns the top of the stack
+        // Precondition: The Stack is not empty
+        // Postcondition: The Stack is unchanged
+        // Time efficiency: O(n)
+        const int peek();
 
-    const bool isEmpty();
+        // Description: Removes top element of this Stack
+        // Precondition: The Stack is not empty
+        // Time efficiency: O(n)
+        void pop();
 
+        // Description: Removes all elements from this Stack
+        // Precondition: Stack is not empty
+        void popAll();
 
-/* Put your code here! */   
-
+        // Description: Returns true if Stack is empty
+        // Postcondition: Stack is unaltered
+        // Time efficiency: O(1)
+        const bool isEmpty();
 
 };

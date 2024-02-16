@@ -51,6 +51,9 @@ int main () {
         stk->pop();
         cout << "pop " << x << endl;
     }
+    
+   stk->popAll();
+   cout << "peek " << stk->peek();
 
     delete stk;
     stk = nullptr;
