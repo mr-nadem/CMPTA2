@@ -23,7 +23,17 @@ int main () {
         cout << "enqueue " << i << endl;
     }
 
+    // copy constructor
+    Queue * copyQ = new Queue(*Q);
+    cout << "Dequeing the copied version now...\n";
+    for (int i = 0; i < 5; i++) {
+        int y = copyQ->peek();
+        copyQ->dequeue();
+        cout << "peek " << y << endl;
+    }
 
+    
+    cout << "Back to regular stuff...\n";
     // dequeue 2x elements
     for (int i = 0; i < 2; i++) {
         int y = Q->peek();

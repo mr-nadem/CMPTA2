@@ -15,7 +15,59 @@ using std::cout;
 using std::endl;
 
 // Description: Constructor
-Queue::Queue() {}
+Queue::Queue() {
+    elements = new int[INITIAL_CAPACITY];
+}
+
+// Description: Copy constructor
+// Time Efficiency: O(n)
+Queue::Queue(const Queue &newQ) {
+
+    // Copy all the non-dynamic variables
+    capacity = newQ.capacity;
+    elementCount = newQ.elementCount;
+    frontindex = newQ.frontindex;
+    backindex = newQ.backindex;
+
+    // Set element size to the Queues capacity
+    elements = new int[capacity];
+
+    // Copy all elements
+    for (int i = 0 ; i < elementCount; i++) {
+        elements[i] = newQ.elements[i];
+    }
+    
+}
+
+// Description: Destructor
+Queue::~Queue() {
+    // Release elements
+    delete elements;
+}
+
+// Description: Overloaded operator assignment
+// Time Efficiency: O(n)
+void Queue::operator=(Queue &copyQ) {
+
+    // Copy all non-dynamic variables
+    capacity = copyQ.capacity;
+    elementCount = copyQ.elementCount;
+    frontindex = copyQ.frontindex;
+    backindex = copyQ.backindex;
+
+    // Create new array with the capacity of copyQ
+    delete elements;
+    elements = new int[capacity];
+    
+    // Copy all the elements
+    for (int i = 0 ; i < elementCount; i++) {
+        elements[i] = copyQ.elements[i];
+    }
+
+}
+
+
+
 
 // Description: Inserts newElement at the back of Queue
 // Time Efficiency: O(1)
