@@ -18,8 +18,8 @@ class Queue {
    However, you can add more data members.              */
 	
     private:
-        static unsigned int const INITIAL_CAPACITY = 6; // Constant INITIAL_CAPACITY
-        int * elements;                 // To do: replace this by int * elements -> Question 4.a)
+        static unsigned int const INITIAL_CAPACITY = 3; // Constant INITIAL_CAPACITY
+        int * elements;                                 // To do: replace this by int * elements -> Question 4.a)
 
         unsigned int elementCount = 0;                  // Number of elements in the Queue - if you need it!
         unsigned int capacity = INITIAL_CAPACITY;       // Actual capacity of the data structure (number of cells in the array)
@@ -57,6 +57,9 @@ class Queue {
         // Time Efficiency: O(1)
         void dequeue();
 
+        // Description: Prints all elements
+        void printQueue();
+
         // Description: Returns a copy of the frontmost element
         // Precondition: Queue not empty
         // Time Efficiency: O(1)
@@ -65,6 +68,8 @@ class Queue {
         // Description: Returns true if and only if Queue empty
         // Time Efficiency: O(1)
         bool isEmpty() const;
+        
+        
         
 };
 #endif

@@ -32,8 +32,9 @@ Queue::Queue(const Queue &newQ) {
     // Set element size to the Queues capacity
     elements = new int[capacity];
 
+    cout << "Starting copy: ";
     // Copy all elements
-    for (int i = 0 ; i < elementCount; i++) {
+    for (int i = frontindex, j = 0; j < elementCount; i = (i + 1) % capacity, j++) {
         elements[i] = newQ.elements[i];
     }
     
@@ -42,7 +43,7 @@ Queue::Queue(const Queue &newQ) {
 // Description: Destructor
 Queue::~Queue() {
     // Release elements
-    delete elements;
+    delete[] elements;
 }
 
 // Description: Overloaded operator assignment
@@ -56,11 +57,11 @@ void Queue::operator=(Queue &copyQ) {
     backindex = copyQ.backindex;
 
     // Create new array with the capacity of copyQ
-    delete elements;
+    delete[] elements;
     elements = new int[capacity];
     
     // Copy all the elements
-    for (int i = 0 ; i < elementCount; i++) {
+    for (int i = frontindex, j = 0; j < elementCount; i = (i + 1) % (capacity), j++) {
         elements[i] = copyQ.elements[i];
     }
 
@@ -72,26 +73,73 @@ void Queue::operator=(Queue &copyQ) {
 // Description: Inserts newElement at the back of Queue
 // Time Efficiency: O(1)
 void Queue::enqueue(int newElement) {
+    // Space allocation
+    if (elementCount == capacity) {
+        capacity *= 2;
+
+        int *updatedElements = new int[capacity];
+
+        for (unsigned int i = frontindex, j = 0; j < elementCount;i = (i + 1) % (capacity / 2), j++) {
+            updatedElements[j] = elements[i];
+        }
+
+        delete[] elements;
+        elements = updatedElements;
+        frontindex = 0;
+        backindex = elementCount;  // Update backindex after copying elements
+    }
+
+    // Enqueuing
     elementCount++;
     elements[backindex] = newElement;
-    backindex = (backindex + 1) % capacity;    
-    return;
-} 
+    backindex = (backindex + 1) % capacity;
+}
+
 
 // Description: Removes the frontmost element
 // Precondition: Queue not empty
 // Time Efficiency: O(1)
 void Queue::dequeue() {
-    elementCount--;
-    frontindex = (frontindex + 1) % capacity;
-    return;
+
+    if (!this->isEmpty()) {
+        // Space allocation
+        if (elementCount < capacity / 4) {
+            capacity = capacity / 2;
+            if (capacity < INITIAL_CAPACITY) {
+                capacity = INITIAL_CAPACITY;
+            }
+
+            int *updatedElements = new int[capacity];
+
+            for (unsigned int i = frontindex, j = 0; j < elementCount; i = (i + 1) % (capacity * 2), j++) {
+                updatedElements[j] = elements[i];
+            }
+
+            delete[] elements;
+            elements = updatedElements;
+            frontindex = 0;
+            backindex = elementCount;  // Update backindex after copying elements
+        }
+
+        elementCount--;
+        frontindex = (frontindex + 1) % capacity;
+        return;
+    } else {
+        cout << "FAILED: Queue Empty";
+    }
+    
 } 
 
 // Description: Returns a copy of the frontmost element
 // Precondition: Queue not empty
 // Time Efficiency: O(1)
 int Queue::peek() const {
-    return elements[frontindex];    
+    if (!this->isEmpty()) {
+        return elements[frontindex];  
+    } else {
+        cout << "FAILED: Queue Empty";
+        return -1;
+    }
 } 
 
 // Description: Returns true if and only if Queue empty
@@ -99,3 +147,14 @@ int Queue::peek() const {
 bool Queue::isEmpty() const {
     return elementCount == 0;
 }
+
+void Queue::printQueue() {
+    for (int i = 0; i < elementCount; i++) {
+        cout << elements[i] << " ";
+    }
+    cout << "\nElement Count: " << elementCount << "\n";
+    cout << "Capacity: " << capacity << "\n";
+
+    cout << endl;
+}
+
