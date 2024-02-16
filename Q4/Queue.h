@@ -4,8 +4,8 @@
  * Description: Array-based implementation of Queue as an ADT class
  * Class Invariant: Queue maintained in FIFO order
  *
- * Author:
- * Date:
+ * Author: Jaiden Nadem & Mani Samet
+ * Date: 2024-02-15
  */
  
 #ifndef QUEUE_H
@@ -18,7 +18,7 @@ class Queue {
    However, you can add more data members.              */
 	
     private:
-        static unsigned int const INITIAL_CAPACITY = 3; // Constant INITIAL_CAPACITY
+        static unsigned int const INITIAL_CAPACITY = 6; // Constant INITIAL_CAPACITY
         int * elements;                                 // To do: replace this by int * elements -> Question 4.a)
 
         unsigned int elementCount = 0;                  // Number of elements in the Queue - if you need it!
@@ -57,7 +57,7 @@ class Queue {
         // Time Efficiency: O(1)
         void dequeue();
 
-        // Description: Prints all elements
+        // Description: Prints all elements ignoring the gaps or unused indices
         void printQueue();
 
         // Description: Returns a copy of the frontmost element

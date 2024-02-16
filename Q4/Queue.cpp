@@ -4,8 +4,8 @@
  * Description: Array-based implementation of Queue as an ADT class
  * Class Invariant: Queue maintained in FIFO order
  *
- * Author:
- * Date:
+ * Author: Jaiden Nadem & Mani Samet
+ * Date: 2024-02-15
  */
  
 #include <iostream>
@@ -71,7 +71,8 @@ void Queue::operator=(Queue &copyQ) {
 
 
 // Description: Inserts newElement at the back of Queue
-// Time Efficiency: O(1)
+// Postcondition: Resizes array capacity to double if full
+// Time Efficiency: O(1) or O(n) if resized
 void Queue::enqueue(int newElement) {
     // Space allocation
     if (elementCount == capacity) {
@@ -83,8 +84,11 @@ void Queue::enqueue(int newElement) {
             updatedElements[j] = elements[i];
         }
 
+        // Delete old array and update elements
         delete[] elements;
         elements = updatedElements;
+
+        // Fix the indices
         frontindex = 0;
         backindex = elementCount; 
     }
@@ -98,32 +102,43 @@ void Queue::enqueue(int newElement) {
 
 // Description: Removes the frontmost element
 // Precondition: Queue not empty
-// Time Efficiency: O(1)
+// Postcondition: Resizes array to half size if # of elements is less than a quarter of the capacity
+// Time Efficiency: O(1) or O(n) if resized
 void Queue::dequeue() {
 
-    if (!isEmpty()) {
+    if (!isEmpty()) { // Precondition
+
+        // Dequeuing process
+        elementCount--;
+        frontindex = (frontindex + 1) % capacity;
+
         // Space allocation
-        if (elementCount < capacity / 4) {
-            capacity = capacity / 2;
-            if (capacity < INITIAL_CAPACITY) {
+        if ((elementCount < capacity / 4) && (capacity != INITIAL_CAPACITY)) {
+
+            int previousCapacity = capacity;
+
+            if ((capacity / 2) < INITIAL_CAPACITY) { // Checks if the capacity needs to be set to iniial
                 capacity = INITIAL_CAPACITY;
+            } else { // If not just half capacity
+                capacity = capacity / 2;
             }
 
-            int *updatedElements = new int[capacity];
+            int *updatedElements = new int[capacity]; // Creates array with new capacity
 
-            for (unsigned int i = frontindex, j = 0; j < elementCount; i = (i + 1) % (capacity * 2), j++) {
+            // Uses previous capacity in order to grab all the elements in proper order.
+            for (unsigned int i = frontindex, j = 0; j < elementCount; i = (i + 1) % (previousCapacity), j++) {
                 updatedElements[j] = elements[i];
             }
 
+            // Delete old array and update elements to be the updated array. 
             delete[] elements;
             elements = updatedElements;
-            frontindex = 0;
-            backindex = elementCount;  // Update backindex after copying elements
-        }
 
-        elementCount--;
-        frontindex = (frontindex + 1) % capacity;
-        return;
+            // Fix the indices
+            frontindex = 0;
+            backindex = elementCount; 
+        }
+        
     } else {
         cout << "FAILED: Queue Empty";
     }
@@ -137,7 +152,7 @@ int Queue::peek() const {
     if (!isEmpty()) {
         return elements[frontindex];  
     } else {
-        cout << "FAILED: Queue Empty";
+        cout << "\nFAILED: Queue Empty\n";
         return -1;
     }
 } 
@@ -148,13 +163,13 @@ bool Queue::isEmpty() const {
     return elementCount == 0;
 }
 
+// Description: Prints all elements ignoring the gaps or unused indices
 void Queue::printQueue() {
-    for (int i = 0; i < elementCount; i++) {
+    for (int i = frontindex, j = 0; j < elementCount; j++, i = (i+1) % capacity) {
         cout << elements[i] << " ";
     }
     cout << "\nElement Count: " << elementCount << "\n";
     cout << "Capacity: " << capacity << "\n";
-
     cout << endl;
 }
 
