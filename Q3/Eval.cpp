@@ -3,8 +3,8 @@
  *
  * Description: Evaluation of infix expressions using two Stacks.
  *
- * Author:
- * Date:
+ * Author: Jaiden Nadem & Mani Samet
+ * Date: 2024-02-16
  */
 
 #include <iostream>
@@ -16,6 +16,10 @@ using std::endl;
 using std::cin;
 
 
+// Description: Determines priority of the operations.
+// Precondition: non-empty / Valid Input Token
+// Postcondition: Returns integer of operation priority (0 for lowest, 2 for highest).
+// Time efficiency: O(1) - Constant time complexity.
 int OperationPriority(Token operation) {
 
     if (operation.tt == asttok || operation.tt == slashtok){ // if * or / higher pressedance
@@ -30,7 +34,10 @@ int OperationPriority(Token operation) {
 }
 
 
-
+// Description: Performs one of the arithmetic operations on num1 and num2 .
+// Precondition: There must be a non-empty / Valid Input Token
+// Postcondition: Returns result of operation on num1 and num2.
+// Time efficiency: O(1)
 int getOperationVal(Token operation, int num1, int num2){
 
     if (operation.tt == pltok) // + addition
@@ -52,11 +59,12 @@ int getOperationVal(Token operation, int num1, int num2){
 
 int main() {
 
-    Scanner S = cin; // object of class Scanner with parameter cin
+    Scanner S(cin); // object of class Scanner with parameter cin
     Token t;
     Stack<Token> number_stack, operator_stack; // stacks to hold numbers and operators
     t = S.getnext();
 
+    // Evaluate  incoming tokens until end of expression
     while (t.tt != eof) {
 
         if (t.tt == integer){
@@ -79,7 +87,7 @@ int main() {
                 resultToken.val = result;
                 number_stack.push(resultToken);
             }
-            operator_stack.pop(); // pops the left parenthesis from opstack
+            operator_stack.pop(); // pops the left parenthesis from operator_tack
         }
 
         else if (t.tt == pltok || t.tt == mitok || t.tt == asttok || t.tt == slashtok) {
@@ -93,12 +101,13 @@ int main() {
                 resulttok.val = result;
                 number_stack.push(resulttok);
             }
-            operator_stack.push(t); // push the current operator in opstack
+            operator_stack.push(t); // push current operator in operator_stack
         }   
 
-    t = S.getnext(); //get the next token
+    t = S.getnext(); //get next token
     }
 
+    // Evaluate remaining operators
     while (!operator_stack.isEmpty()){
 
         Token operation = operator_stack.pop();
@@ -111,6 +120,7 @@ int main() {
         number_stack.push(resulttok);
     }
 
+    // print the result
     if (!number_stack.isEmpty()){
         cout << number_stack.peek().val << endl;
     }
